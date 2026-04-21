@@ -1,12 +1,32 @@
 package com.example.semestra.data
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "users")
+@Entity(
+    tableName = "users",
+    indices = [
+        Index(value = ["email"], unique = true)
+    ]
+)
 data class User(
-    @PrimaryKey val userID: String, // [cite: 152]
-    val name: String,              // [cite: 153]
-    val email: String,             // [cite: 154]
-    val passwordHash: String       // [cite: 155]
+    @PrimaryKey
+    @ColumnInfo(name = "user_id")
+    val userId: String,
+    @ColumnInfo(name = "first_name")
+    val firstName: String,
+    @ColumnInfo(name = "last_name")
+    val lastName: String,
+    @ColumnInfo(name = "email")
+    val email: String,
+    @ColumnInfo(name = "phone_number")
+    val phoneNumber: String,
+    @ColumnInfo(name = "password_hash")
+    val passwordHash: String,
+    @ColumnInfo(name = "security_question")
+    val securityQuestion: String,
+    @ColumnInfo(name = "security_answer")
+    val securityAnswer: String
 )
