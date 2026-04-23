@@ -7,13 +7,19 @@ import com.tom_roush.pdfbox.pdmodel.PDDocument
 import com.tom_roush.pdfbox.text.PDFTextStripper
 
 object PdfTextExtractor {
-
     fun extractText(context: Context, uri: Uri): String {
+        // Initialize PDFBox
         PDFBoxResourceLoader.init(context)
-        return context.contentResolver.openInputStream(uri)?.use { stream ->
-            PDDocument.load(stream).use { doc ->
-                PDFTextStripper().getText(doc)
-            }
-        } ?: ""
+
+        return try {
+            context.contentResolver.openInputStream(uri)?.use { stream ->
+                PDDocument.load(stream).use { doc ->
+                    PDFTextStripper().getText(doc)
+                }
+            } ?: ""
+        } catch (e: Exception) {
+            e.printStackTrace()
+            ""
+        }
     }
 }

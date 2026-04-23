@@ -1,20 +1,19 @@
-plugins {
-    alias(libs.plugins.android.application)
+// APP build.gradle.kts
+plugins {alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    id("org.jetbrains.kotlin.kapt")
+    alias(libs.plugins.kotlin.kapt)
 }
 
 android {
     namespace = "com.example.semestra"
-    compileSdk = 36
+    compileSdk = 34 // Change 36 to 34 or 35 (36 is not stable yet)
 
     defaultConfig {
         applicationId = "com.example.semestra"
         minSdk = 24
-        targetSdk = 36
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -37,7 +36,7 @@ android {
 }
 
 dependencies {
-
+    implementation("com.tom-roush:pdfbox-android:2.0.27.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.constraintlayout)

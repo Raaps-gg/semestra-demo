@@ -1,9 +1,7 @@
 package com.example.semestra.data
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*  // <--- Ensure this is here
+import com.example.semestra.data.ExamEvent
 
 @Dao
 interface ExamEventDao {

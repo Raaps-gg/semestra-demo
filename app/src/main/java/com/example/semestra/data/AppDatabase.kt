@@ -7,7 +7,11 @@ import androidx.room.RoomDatabase
 
 @Database(entities = [User::class, ExamEvent::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
+
     abstract fun userDao(): UserDao
+
+    // THIS WAS MISSING:
+    abstract fun examEventDao(): ExamEventDao
 
     companion object {
         @Volatile

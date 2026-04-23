@@ -1,34 +1,32 @@
-package com.example.semestra
+package com.example.semestra.ui
 
-import android.net.Uri
+import android.net.Uri // MISSING PREVIOUSLY
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import com.example.semestra.data.AppDatabase
-import com.example.semestra.logic.PdfTextExtractor
-import com.example.semestra.logic.SyllabusParser
+import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.progressindicator.CircularProgressIndicator
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
+
+import com.example.semestra.R
+import com.example.semestra.data.AppDatabase
+import com.example.semestra.logic.PdfTextExtractor
+import com.example.semestra.logic.SyllabusParser // MISSING PREVIOUSLY
 
 class UploadActivity : AppCompatActivity() {
 
     private val activityScope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
+
+    // Ensure SyllabusParser.kt is fixed and doesn't have "Redeclaration" errors
     private val parser = SyllabusParser()
 
     private lateinit var statusText: TextView
     private lateinit var progressIndicator: CircularProgressIndicator
     private lateinit var uploadButton: MaterialButton
 
-    // Registers a file picker for PDFs
     private val pickPdf = registerForActivityResult(
         ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
@@ -39,6 +37,8 @@ class UploadActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_upload)
+
+        // Ensure "upload_title" exists in res/values/strings.xml
         title = getString(R.string.upload_title)
 
         statusText        = findViewById(R.id.textUploadStatus)
@@ -57,11 +57,9 @@ class UploadActivity : AppCompatActivity() {
         activityScope.launch {
             val result = withContext(Dispatchers.IO) {
                 runCatching {
-                    // 1. Extract text
                     val rawText = PdfTextExtractor.extractText(applicationContext, uri)
-                    // 2. Parse into events
                     val events = parser.parseText(rawText)
-                    // 3. Persist to Room
+
                     if (events.isNotEmpty()) {
                         val dao = AppDatabase.getInstance(applicationContext).examEventDao()
                         dao.insertAll(events)
@@ -74,12 +72,12 @@ class UploadActivity : AppCompatActivity() {
             result.fold(
                 onSuccess = { count ->
                     statusText.text = if (count > 0)
-                        "✓ Found $count exam event(s) — check your schedule!"
+                        "✓ Found $count exam event(s)!"
                     else
-                        "No exam dates detected. Try a different syllabus."
+                        "No exam dates detected."
                 },
                 onFailure = { err ->
-                    statusText.text = "Error reading PDF: ${err.localizedMessage}"
+                    statusText.text = "Error: ${err.localizedMessage}"
                 }
             )
         }
