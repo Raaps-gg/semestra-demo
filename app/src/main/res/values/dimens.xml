@@ -3,8 +3,8 @@
     <dimen name="space_screen">24dp</dimen>
     <dimen name="space_content">16dp</dimen>
     <dimen name="space_small">8dp</dimen>
-    <dimen name="radius_card">8dp</dimen>
-    <dimen name="radius_input">8dp</dimen>
+    <dimen name="radius_card">12dp</dimen>
+    <dimen name="radius_input">12dp</dimen>
     <dimen name="text_title">28sp</dimen>
     <dimen name="text_heading">22sp</dimen>
     <dimen name="text_body">16sp</dimen>

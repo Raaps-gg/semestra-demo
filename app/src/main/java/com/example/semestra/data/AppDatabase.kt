@@ -7,6 +7,9 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
 /**
+ * Version 8 adds course grading scale metadata for expanded class cards.
+ * Version 7 adds event start/end time for timeline calendar rendering.
+ * Version 6 adds course profiles and event location/type fields.
  * Version 5 adds persistent daily activity log timeline entries.
  * Version 4 adds syllabus metadata fields for dashboard and class directory UX.
  * Version 3 adds persisted Google Calendar event IDs for delete support.
@@ -15,8 +18,8 @@ import androidx.room.TypeConverters
  * migrations before shipping persistent user data.
  */
 @Database(
-    entities = [User::class, ExamEvent::class, Syllabus::class, ActivityLog::class],
-    version = 5,
+    entities = [User::class, ExamEvent::class, Syllabus::class, ActivityLog::class, CourseProfile::class],
+    version = 8,
     exportSchema = false
 )
 @TypeConverters(Converters::class)
@@ -26,6 +29,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun examEventDao(): ExamEventDao
     abstract fun syllabusDao(): SyllabusDao
     abstract fun activityLogDao(): ActivityLogDao
+    abstract fun courseProfileDao(): CourseProfileDao
 
     companion object {
         @Volatile

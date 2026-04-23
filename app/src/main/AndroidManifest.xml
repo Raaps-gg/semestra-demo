@@ -22,6 +22,9 @@
             android:name=".ui.ScheduleActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.MainShellActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.DashboardActivity"
             android:exported="false" />
         <activity

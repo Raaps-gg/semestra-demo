@@ -6,7 +6,7 @@
     android:layout_marginBottom="@dimen/space_content"
     app:cardBackgroundColor="@color/notion_bg"
     app:cardCornerRadius="@dimen/radius_card"
-    app:cardElevation="0dp"
+    app:cardElevation="2dp"
     app:strokeColor="@color/notion_stroke"
     app:strokeWidth="1dp">
 
@@ -16,16 +16,47 @@
         android:orientation="vertical"
         android:padding="@dimen/space_content">
 
-        <TextView
-            android:id="@+id/textDirectoryCourse"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/notion_text_primary"
-            android:textSize="@dimen/text_body"
-            android:textStyle="bold" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imageDirectoryIcon"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:src="@android:drawable/ic_menu_my_calendar"
+                app:tint="@color/notion_text_secondary" />
+
+            <TextView
+                android:id="@+id/textDirectoryCourse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textColor="@color/notion_text_primary"
+                android:textSize="@dimen/text_body"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textDirectorySection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textColor="@color/notion_text_secondary"
+            android:textSize="@dimen/text_caption" />
 
         <TextView
             android:id="@+id/textDirectoryMeeting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_small"
+            android:textColor="@color/notion_text_secondary"
+            android:textSize="@dimen/text_caption" />
+
+        <TextView
+            android:id="@+id/textDirectoryLocation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_small"
@@ -48,12 +79,89 @@
             android:textColor="@color/notion_text_secondary"
             android:textSize="@dimen/text_caption" />
 
-        <TextView
-            android:id="@+id/textDirectoryGrading"
+        <LinearLayout
+            android:id="@+id/layoutExpandHint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_content"
+            android:gravity="end">
+
+            <TextView
+                android:id="@+id/textDirectoryExpandHint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/class_expand_hint"
+                android:textColor="@color/notion_text_secondary"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutDirectoryExpanded"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_small"
-            android:textColor="@color/notion_text_secondary"
-            android:textSize="@dimen/text_caption" />
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/textDirectoryGrading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/notion_text_primary"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputDirectoryNotes"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_small"
+                android:hint="@string/class_directory_notes">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editDirectoryNotes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minLines="2"
+                    android:maxLines="4"
+                    android:textSize="12sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonSaveDirectoryNotes"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="@string/class_directory_save_notes"
+                android:textAllCaps="false"
+                android:textColor="@color/notion_text_primary"
+                android:textSize="12sp"
+                app:cornerRadius="@dimen/radius_input"
+                app:strokeColor="@color/notion_stroke" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_small"
+                android:text="@string/class_event_list_title"
+                android:textColor="@color/notion_text_primary"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:layout_marginTop="4dp"
+                android:fillViewport="true">
+
+                <LinearLayout
+                    android:id="@+id/layoutClassEventsList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+            </androidx.core.widget.NestedScrollView>
+        </LinearLayout>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

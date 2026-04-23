@@ -25,6 +25,9 @@ interface ExamEventDao {
     @Query("DELETE FROM exam_events WHERE event_id = :eventId")
     suspend fun deleteById(eventId: String): Int
 
+    @Query("SELECT * FROM exam_events WHERE event_id = :eventId LIMIT 1")
+    suspend fun getById(eventId: String): ExamEvent?
+
     @Query("SELECT * FROM exam_events ORDER BY event_date ASC")
     suspend fun getAllEvents(): List<ExamEvent>
 
@@ -99,4 +102,19 @@ interface ExamEventDao {
 
     @Query("DELETE FROM exam_events")
     suspend fun clearAll()
+
+    @Query("DELETE FROM exam_events WHERE user_id = :userId")
+    suspend fun deleteForUser(userId: String): Int
+
+    @Query(
+        """
+        SELECT * FROM exam_events
+        WHERE user_id = :userId
+          AND class_name = :className
+          AND status = 'SAVED'
+          AND (event_type = 'Exam' OR event_type = 'Quiz' OR event_type = 'Assignment')
+        ORDER BY event_date ASC
+        """
+    )
+    fun observeImportantForClass(userId: String, className: String): Flow<List<ExamEvent>>
 }

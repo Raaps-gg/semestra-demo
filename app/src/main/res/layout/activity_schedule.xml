@@ -6,62 +6,53 @@
     android:background="@color/notion_surface"
     android:padding="@dimen/space_screen">
 
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/chipGroupRange"
+    <HorizontalScrollView
+        android:id="@+id/weekStripScroll"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:chipSpacingHorizontal="@dimen/space_small"
-        app:chipSpacingVertical="@dimen/space_small"
+        android:scrollbars="none"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:singleSelection="true"
-        app:selectionRequired="true">
+        app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chipDaily"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
+        <LinearLayout
+            android:id="@+id/weekStripContainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/schedule_daily"
-            app:checkedIconVisible="false"
-            app:chipBackgroundColor="@color/chip_bg_choice"
-            app:chipStrokeColor="@color/notion_stroke"
-            app:chipStrokeWidth="1dp" />
+            android:orientation="horizontal" />
+    </HorizontalScrollView>
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chipWeekly"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="@string/schedule_weekly"
-            app:checkedIconVisible="false"
-            app:chipBackgroundColor="@color/chip_bg_choice"
-            app:chipStrokeColor="@color/notion_stroke"
-            app:chipStrokeWidth="1dp" />
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chipMonthly"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/schedule_monthly"
-            app:checkedIconVisible="false"
-            app:chipBackgroundColor="@color/chip_bg_choice"
-            app:chipStrokeColor="@color/notion_stroke"
-            app:chipStrokeWidth="1dp" />
-    </com.google.android.material.chip.ChipGroup>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerSchedule"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollTimeline"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/space_content"
+        android:fillViewport="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/chipGroupRange" />
+        app:layout_constraintTop_toBottomOf="@id/weekStripScroll">
+
+        <LinearLayout
+            android:id="@+id/timelineRoot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/hourLabelsContainer"
+                android:layout_width="56dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+
+            <FrameLayout
+                android:id="@+id/dayEventsCanvas"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/notion_bg" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
     <TextView
         android:id="@+id/textScheduleEmpty"
@@ -71,9 +62,9 @@
         android:textColor="@color/notion_text_secondary"
         android:textSize="@dimen/text_body"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@id/recyclerSchedule"
-        app:layout_constraintEnd_toEndOf="@id/recyclerSchedule"
-        app:layout_constraintStart_toStartOf="@id/recyclerSchedule"
-        app:layout_constraintTop_toTopOf="@id/recyclerSchedule" />
+        app:layout_constraintBottom_toBottomOf="@id/scrollTimeline"
+        app:layout_constraintEnd_toEndOf="@id/scrollTimeline"
+        app:layout_constraintStart_toStartOf="@id/scrollTimeline"
+        app:layout_constraintTop_toTopOf="@id/scrollTimeline" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

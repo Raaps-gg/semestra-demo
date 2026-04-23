@@ -10,4 +10,18 @@
     <color name="notion_error">#C93C3C</color>
     <color name="notion_chip_selected">#EFEFED</color>
     <color name="notion_chip_unselected">#00000000</color>
+    <color name="event_exam_bg">#FFF1F1</color>
+    <color name="event_exam_stripe">#D35757</color>
+    <color name="event_quiz_bg">#FFF6EB</color>
+    <color name="event_quiz_stripe">#D78838</color>
+    <color name="event_assignment_bg">#EEF8EE</color>
+    <color name="event_assignment_stripe">#4F8E5D</color>
+    <color name="event_lecture_bg">#EDF5FF</color>
+    <color name="event_lecture_stripe">#4A78B8</color>
+    <color name="two_tone_dark">#1A1B25</color>
+    <color name="two_tone_dark_alt">#25273A</color>
+    <color name="two_tone_light_surface">#F4F6F8</color>
+    <color name="two_tone_on_dark">#FFFFFF</color>
+    <color name="two_tone_on_dark_secondary">#C9CCDA</color>
+    <color name="today_highlight_green">#39B26B</color>
 </resources>

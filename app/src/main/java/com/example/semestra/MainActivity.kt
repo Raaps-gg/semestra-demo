@@ -17,7 +17,7 @@ import com.example.semestra.logic.ForgotPasswordService
 import com.example.semestra.logic.ForgotPasswordResult
 import com.example.semestra.logic.LoginResult
 import com.example.semestra.logic.UserLoginService
-import com.example.semestra.ui.DashboardActivity
+import com.example.semestra.ui.MainShellActivity
 import com.example.semestra.ui.RegistrationActivity
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -181,7 +181,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun navigateToDashboard() {
-        startActivity(Intent(this, DashboardActivity::class.java))
+        startActivity(Intent(this, MainShellActivity::class.java))
         finish()
     }
 

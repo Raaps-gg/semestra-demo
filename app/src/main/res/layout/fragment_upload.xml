@@ -4,19 +4,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/notion_surface"
     android:padding="24dp">
 
     <TextView
         android:id="@+id/textUploadStatus"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Select syllabus files to build your calendar demo."
+        android:text="@string/upload_status_seed"
         android:textAlignment="center"
+        android:textColor="@color/notion_text_primary"
         android:textSize="16sp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/buttonPickPdf"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <com.google.android.material.button.MaterialButton
@@ -25,20 +27,20 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="@string/upload_select_files"
-        app:layout_constraintTop_toBottomOf="@id/textUploadStatus"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textUploadStatus" />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progressUpload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:visibility="gone"
         android:indeterminate="true"
-        app:layout_constraintTop_toBottomOf="@id/buttonPickPdf"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/buttonPickPdf" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

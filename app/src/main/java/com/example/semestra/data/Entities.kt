@@ -28,6 +28,14 @@ data class ExamEvent(
     val examTitle: String,
     @ColumnInfo(name = "event_date")
     val eventDate: Long,
+    @ColumnInfo(name = "location")
+    val location: String = "",
+    @ColumnInfo(name = "start_time")
+    val startTime: String = "09:00 AM",
+    @ColumnInfo(name = "end_time")
+    val endTime: String = "10:00 AM",
+    @ColumnInfo(name = "event_type")
+    val eventType: String = "Lecture",
     @ColumnInfo(name = "synced")
     val synced: Boolean = false,
     @ColumnInfo(name = "google_event_id")

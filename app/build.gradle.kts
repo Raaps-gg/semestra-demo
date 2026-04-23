@@ -57,6 +57,10 @@ dependencies {
     implementation(libs.google.api.client.android)
     implementation(libs.google.api.client.gson)
     implementation(libs.google.api.services.calendar)
+    implementation(libs.material.calendar.view) {
+        exclude(group = "com.android.support")
+    }
+    implementation(libs.kizitonwose.calendar.view)
     kapt(libs.androidx.room.compiler)
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
