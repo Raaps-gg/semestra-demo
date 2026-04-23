@@ -6,11 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.semestra.R
 import com.example.semestra.data.CourseProfile
@@ -58,7 +58,7 @@ class ClassDirectoryAdapter(
         private val grading = itemView.findViewById<TextView>(R.id.textDirectoryGrading)
         private val expandHint = itemView.findViewById<TextView>(R.id.textDirectoryExpandHint)
         private val expandedLayout = itemView.findViewById<View>(R.id.layoutDirectoryExpanded)
-        private val eventsListLayout = itemView.findViewById<LinearLayout>(R.id.layoutClassEventsList)
+        private val eventsRecycler = itemView.findViewById<RecyclerView>(R.id.recyclerClassEvents)
         private val notes = itemView.findViewById<TextInputEditText>(R.id.editDirectoryNotes)
         private val saveNotes = itemView.findViewById<MaterialButton>(R.id.buttonSaveDirectoryNotes)
 
@@ -83,27 +83,10 @@ class ClassDirectoryAdapter(
             saveNotes.setOnClickListener {
                 onSaveNotes(item, notes.text?.toString().orEmpty())
             }
-            eventsListLayout.removeAllViews()
             val classEvents = eventsByClass[item.courseName].orEmpty().sortedBy { it.eventDate }
-            if (classEvents.isEmpty()) {
-                val empty = TextView(itemView.context).apply {
-                    text = itemView.context.getString(R.string.class_event_list_empty)
-                    textSize = 12f
-                    setTextColor(itemView.resources.getColor(R.color.notion_text_secondary, null))
-                }
-                eventsListLayout.addView(empty)
-            } else {
-                classEvents.forEach { event ->
-                    val row = TextView(itemView.context).apply {
-                        val date = DateFormat.getDateInstance(DateFormat.MEDIUM).format(Date(event.eventDate))
-                        text = "$date  ${event.examTitle}"
-                        textSize = 12f
-                        setPadding(0, 0, 0, 8)
-                        setTextColor(itemView.resources.getColor(R.color.notion_text_secondary, null))
-                    }
-                    eventsListLayout.addView(row)
-                }
-            }
+            eventsRecycler.layoutManager = LinearLayoutManager(itemView.context)
+            eventsRecycler.isNestedScrollingEnabled = true
+            eventsRecycler.adapter = ClassEventsMiniAdapter(classEvents)
             val expanded = expandedProfileIds.contains(item.profileId)
             expandedLayout.visibility = if (expanded) View.VISIBLE else View.GONE
             expandHint.text = itemView.context.getString(
@@ -135,6 +118,43 @@ class ClassDirectoryAdapter(
                     .setPositiveButton(R.string.delete) { d, _ -> d.dismiss() }
                     .show()
             }
+        }
+    }
+}
+
+private class ClassEventsMiniAdapter(
+    private val items: List<ExamEvent>
+) : RecyclerView.Adapter<ClassEventsMiniAdapter.RowHolder>() {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RowHolder {
+        val view = LayoutInflater.from(parent.context)
+            .inflate(android.R.layout.simple_list_item_2, parent, false)
+        return RowHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: RowHolder, position: Int) {
+        holder.bind(items.getOrNull(position))
+    }
+
+    override fun getItemCount(): Int = if (items.isEmpty()) 1 else items.size
+
+    inner class RowHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val title = itemView.findViewById<TextView>(android.R.id.text1)
+        private val subtitle = itemView.findViewById<TextView>(android.R.id.text2)
+
+        fun bind(event: ExamEvent?) {
+            if (event == null) {
+                title.text = itemView.context.getString(R.string.class_event_list_empty)
+                subtitle.text = ""
+                return
+            }
+            val date = DateFormat.getDateInstance(DateFormat.MEDIUM).format(Date(event.eventDate))
+            title.text = event.examTitle
+            subtitle.text = "$date  •  ${event.eventType}"
+            title.textSize = 12f
+            subtitle.textSize = 11f
+            title.setTextColor(itemView.resources.getColor(R.color.notion_text_primary, null))
+            subtitle.setTextColor(itemView.resources.getColor(R.color.notion_text_secondary, null))
         }
     }
 }

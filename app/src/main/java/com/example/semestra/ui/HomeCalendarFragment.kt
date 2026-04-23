@@ -2,6 +2,7 @@ package com.example.semestra.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
@@ -82,12 +83,27 @@ class HomeCalendarFragment : Fragment() {
         eventsRecycler.layoutManager = LinearLayoutManager(requireContext())
         eventsRecycler.adapter = adapter
         val sheet = view.findViewById<View>(R.id.layoutHomeBody)
-        BottomSheetBehavior.from(sheet).apply {
+        val dragHandle = view.findViewById<View>(R.id.viewHomeDragHandle)
+        val behavior = BottomSheetBehavior.from(sheet).apply {
             isHideable = false
             isFitToContents = false
             skipCollapsed = false
+            isDraggable = false
             expandedOffset = resources.displayMetrics.heightPixels / 2
             state = BottomSheetBehavior.STATE_COLLAPSED
+        }
+        dragHandle.setOnTouchListener { _, event ->
+            when (event.actionMasked) {
+                MotionEvent.ACTION_DOWN -> {
+                    behavior.isDraggable = true
+                    false
+                }
+                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                    behavior.isDraggable = false
+                    false
+                }
+                else -> false
+            }
         }
 
         setupCalendar()
