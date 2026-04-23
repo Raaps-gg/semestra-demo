@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/space_content"
-    android:foreground="?android:attr/selectableItemBackground"
     app:cardBackgroundColor="@color/notion_bg"
     app:cardCornerRadius="@dimen/radius_card"
     app:cardElevation="0dp"
@@ -19,21 +17,43 @@
         android:padding="@dimen/space_content">
 
         <TextView
-            android:id="@+id/textScheduleTitle"
+            android:id="@+id/textDirectoryCourse"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/notion_text_primary"
             android:textSize="@dimen/text_body"
-            android:textStyle="bold"
-            tools:text="Final Exam" />
+            android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/textScheduleSubtitle"
+            android:id="@+id/textDirectoryMeeting"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_small"
             android:textColor="@color/notion_text_secondary"
-            android:textSize="@dimen/text_caption"
-            tools:text="CS 101 · Apr 22, 2026 · Synced" />
+            android:textSize="@dimen/text_caption" />
+
+        <TextView
+            android:id="@+id/textDirectoryInstructor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_small"
+            android:textColor="@color/notion_text_secondary"
+            android:textSize="@dimen/text_caption" />
+
+        <TextView
+            android:id="@+id/textDirectoryTA"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_small"
+            android:textColor="@color/notion_text_secondary"
+            android:textSize="@dimen/text_caption" />
+
+        <TextView
+            android:id="@+id/textDirectoryGrading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_small"
+            android:textColor="@color/notion_text_secondary"
+            android:textSize="@dimen/text_caption" />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

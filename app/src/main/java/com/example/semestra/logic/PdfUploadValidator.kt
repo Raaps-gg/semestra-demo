@@ -7,10 +7,12 @@ import java.util.Locale
 
 object PdfUploadValidator {
     private const val MAX_BYTES = 40L * 1024 * 1024
+    private const val MIME_PDF = "application/pdf"
+    private const val MIME_X_PDF = "application/x-pdf"
 
     fun isPdf(context: Context, uri: Uri): Boolean {
         val mime = context.contentResolver.getType(uri)?.lowercase(Locale.US).orEmpty()
-        if (mime == "application/pdf" || mime == "application/x-pdf") {
+        if (mime == MIME_PDF || mime == MIME_X_PDF) {
             return true
         }
         val name = queryDisplayName(context, uri)?.lowercase(Locale.US).orEmpty()

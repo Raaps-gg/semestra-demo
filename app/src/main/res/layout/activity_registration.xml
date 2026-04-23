@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F6F7FB">
+    android:background="@color/notion_surface">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:clipToPadding="false"
         android:fillViewport="true"
-        android:padding="20dp"
+        android:padding="@dimen/space_screen"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,25 +20,29 @@
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@android:color/white"
-            app:cardCornerRadius="28dp"
+            app:cardBackgroundColor="@color/notion_bg"
+            app:cardCornerRadius="@dimen/radius_card"
             app:cardElevation="0dp"
-            app:strokeColor="#E4E8F0"
+            app:strokeColor="@color/notion_stroke"
             app:strokeWidth="1dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="24dp">
+                android:padding="@dimen/space_screen">
 
                 <TextView
                     android:id="@+id/textRegistrationTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/registration_title"
-                    android:textColor="#111827"
-                    android:textSize="28sp"
+                    android:textColor="@color/notion_text_primary"
+                    android:textSize="@dimen/text_title"
                     android:textStyle="bold"
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMinTextSize="20sp"
+                    android:autoSizeMaxTextSize="30sp"
+                    android:autoSizeStepGranularity="1sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -47,10 +51,10 @@
                     android:id="@+id/textRegistrationSubtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="@dimen/space_small"
                     android:text="@string/registration_subtitle"
-                    android:textColor="#6B7280"
-                    android:textSize="14sp"
+                    android:textColor="@color/notion_text_secondary"
+                    android:textSize="@dimen/text_caption"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/textRegistrationTitle" />
@@ -62,13 +66,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:hint="@string/registration_first_name_label"
-                    app:boxBackgroundColor="#F9FAFB"
-                    app:boxCornerRadiusBottomEnd="18dp"
-                    app:boxCornerRadiusBottomStart="18dp"
-                    app:boxCornerRadiusTopEnd="18dp"
-                    app:boxCornerRadiusTopStart="18dp"
-                    app:boxStrokeColor="@color/purple_500"
-                    app:hintTextColor="@color/purple_500"
+                    app:boxBackgroundColor="@color/notion_bg"
+                    app:boxStrokeColor="@color/notion_stroke"
+                    app:hintTextColor="@color/notion_text_secondary"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/textRegistrationSubtitle">
@@ -77,11 +77,10 @@
                         android:id="@+id/editTextFirstName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/registration_first_name_hint"
                         android:imeOptions="actionNext"
                         android:inputType="textPersonName"
-                        android:minHeight="56dp"
-                        android:paddingVertical="16dp" />
+                        android:minHeight="@dimen/button_height"
+                        android:textSize="@dimen/text_body" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
@@ -89,8 +88,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:textColor="#D14343"
-                    android:textSize="12sp"
+                    android:textColor="@color/notion_error"
+                    android:textSize="@dimen/text_error"
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -105,13 +104,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:hint="@string/registration_last_name_label"
-                    app:boxBackgroundColor="#F9FAFB"
-                    app:boxCornerRadiusBottomEnd="18dp"
-                    app:boxCornerRadiusBottomStart="18dp"
-                    app:boxCornerRadiusTopEnd="18dp"
-                    app:boxCornerRadiusTopStart="18dp"
-                    app:boxStrokeColor="@color/purple_500"
-                    app:hintTextColor="@color/purple_500"
+                    app:boxBackgroundColor="@color/notion_bg"
+                    app:boxStrokeColor="@color/notion_stroke"
+                    app:hintTextColor="@color/notion_text_secondary"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/textFirstNameError">
@@ -120,11 +115,10 @@
                         android:id="@+id/editTextLastName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/registration_last_name_hint"
                         android:imeOptions="actionNext"
                         android:inputType="textPersonName"
-                        android:minHeight="56dp"
-                        android:paddingVertical="16dp" />
+                        android:minHeight="@dimen/button_height"
+                        android:textSize="@dimen/text_body" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
@@ -132,8 +126,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:textColor="#D14343"
-                    android:textSize="12sp"
+                    android:textColor="@color/notion_error"
+                    android:textSize="@dimen/text_error"
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -148,13 +142,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:hint="@string/registration_email_label"
-                    app:boxBackgroundColor="#F9FAFB"
-                    app:boxCornerRadiusBottomEnd="18dp"
-                    app:boxCornerRadiusBottomStart="18dp"
-                    app:boxCornerRadiusTopEnd="18dp"
-                    app:boxCornerRadiusTopStart="18dp"
-                    app:boxStrokeColor="@color/purple_500"
-                    app:hintTextColor="@color/purple_500"
+                    app:boxBackgroundColor="@color/notion_bg"
+                    app:boxStrokeColor="@color/notion_stroke"
+                    app:hintTextColor="@color/notion_text_secondary"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/textLastNameError">
@@ -163,11 +153,10 @@
                         android:id="@+id/editTextEmail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/registration_email_hint"
                         android:imeOptions="actionNext"
                         android:inputType="textEmailAddress"
-                        android:minHeight="56dp"
-                        android:paddingVertical="16dp" />
+                        android:minHeight="@dimen/button_height"
+                        android:textSize="@dimen/text_body" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
@@ -175,8 +164,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:textColor="#D14343"
-                    android:textSize="12sp"
+                    android:textColor="@color/notion_error"
+                    android:textSize="@dimen/text_error"
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -191,13 +180,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:hint="@string/registration_phone_label"
-                    app:boxBackgroundColor="#F9FAFB"
-                    app:boxCornerRadiusBottomEnd="18dp"
-                    app:boxCornerRadiusBottomStart="18dp"
-                    app:boxCornerRadiusTopEnd="18dp"
-                    app:boxCornerRadiusTopStart="18dp"
-                    app:boxStrokeColor="@color/purple_500"
-                    app:hintTextColor="@color/purple_500"
+                    app:boxBackgroundColor="@color/notion_bg"
+                    app:boxStrokeColor="@color/notion_stroke"
+                    app:hintTextColor="@color/notion_text_secondary"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/textEmailError">
@@ -206,11 +191,10 @@
                         android:id="@+id/editTextPhone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/registration_phone_hint"
                         android:imeOptions="actionNext"
                         android:inputType="phone"
-                        android:minHeight="56dp"
-                        android:paddingVertical="16dp" />
+                        android:minHeight="@dimen/button_height"
+                        android:textSize="@dimen/text_body" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
@@ -218,8 +202,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:textColor="#D14343"
-                    android:textSize="12sp"
+                    android:textColor="@color/notion_error"
+                    android:textSize="@dimen/text_error"
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -234,13 +218,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:hint="@string/registration_user_id_label"
-                    app:boxBackgroundColor="#F9FAFB"
-                    app:boxCornerRadiusBottomEnd="18dp"
-                    app:boxCornerRadiusBottomStart="18dp"
-                    app:boxCornerRadiusTopEnd="18dp"
-                    app:boxCornerRadiusTopStart="18dp"
-                    app:boxStrokeColor="@color/purple_500"
-                    app:hintTextColor="@color/purple_500"
+                    app:boxBackgroundColor="@color/notion_bg"
+                    app:boxStrokeColor="@color/notion_stroke"
+                    app:hintTextColor="@color/notion_text_secondary"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/textPhoneError">
@@ -249,11 +229,10 @@
                         android:id="@+id/editTextRegistrationUserId"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/registration_user_id_hint"
                         android:imeOptions="actionNext"
                         android:inputType="textNoSuggestions"
-                        android:minHeight="56dp"
-                        android:paddingVertical="16dp" />
+                        android:minHeight="@dimen/button_height"
+                        android:textSize="@dimen/text_body" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
@@ -261,8 +240,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:textColor="#D14343"
-                    android:textSize="12sp"
+                    android:textColor="@color/notion_error"
+                    android:textSize="@dimen/text_error"
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -277,14 +256,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:hint="@string/registration_password_label"
-                    app:boxBackgroundColor="#F9FAFB"
-                    app:boxCornerRadiusBottomEnd="18dp"
-                    app:boxCornerRadiusBottomStart="18dp"
-                    app:boxCornerRadiusTopEnd="18dp"
-                    app:boxCornerRadiusTopStart="18dp"
-                    app:boxStrokeColor="@color/purple_500"
+                    app:boxBackgroundColor="@color/notion_bg"
+                    app:boxStrokeColor="@color/notion_stroke"
                     app:endIconMode="password_toggle"
-                    app:hintTextColor="@color/purple_500"
+                    app:hintTextColor="@color/notion_text_secondary"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/textRegistrationUserIdError">
@@ -293,11 +268,10 @@
                         android:id="@+id/editTextRegistrationPassword"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/registration_password_hint"
                         android:imeOptions="actionNext"
                         android:inputType="textPassword"
-                        android:minHeight="56dp"
-                        android:paddingVertical="16dp" />
+                        android:minHeight="@dimen/button_height"
+                        android:textSize="@dimen/text_body" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
@@ -305,8 +279,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:textColor="#D14343"
-                    android:textSize="12sp"
+                    android:textColor="@color/notion_error"
+                    android:textSize="@dimen/text_error"
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -321,13 +295,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:hint="@string/registration_security_question_label"
-                    app:boxBackgroundColor="#F9FAFB"
-                    app:boxCornerRadiusBottomEnd="18dp"
-                    app:boxCornerRadiusBottomStart="18dp"
-                    app:boxCornerRadiusTopEnd="18dp"
-                    app:boxCornerRadiusTopStart="18dp"
-                    app:boxStrokeColor="@color/purple_500"
-                    app:hintTextColor="@color/purple_500"
+                    app:boxBackgroundColor="@color/notion_bg"
+                    app:boxStrokeColor="@color/notion_stroke"
+                    app:hintTextColor="@color/notion_text_secondary"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/textRegistrationPasswordError">
@@ -336,11 +306,10 @@
                         android:id="@+id/editTextSecurityQuestion"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/registration_security_question_hint"
                         android:imeOptions="actionNext"
                         android:inputType="textCapSentences"
-                        android:minHeight="56dp"
-                        android:paddingVertical="16dp" />
+                        android:minHeight="@dimen/button_height"
+                        android:textSize="@dimen/text_body" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
@@ -348,8 +317,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:textColor="#D14343"
-                    android:textSize="12sp"
+                    android:textColor="@color/notion_error"
+                    android:textSize="@dimen/text_error"
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -364,13 +333,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:hint="@string/registration_security_answer_label"
-                    app:boxBackgroundColor="#F9FAFB"
-                    app:boxCornerRadiusBottomEnd="18dp"
-                    app:boxCornerRadiusBottomStart="18dp"
-                    app:boxCornerRadiusTopEnd="18dp"
-                    app:boxCornerRadiusTopStart="18dp"
-                    app:boxStrokeColor="@color/purple_500"
-                    app:hintTextColor="@color/purple_500"
+                    app:boxBackgroundColor="@color/notion_bg"
+                    app:boxStrokeColor="@color/notion_stroke"
+                    app:hintTextColor="@color/notion_text_secondary"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/textSecurityQuestionError">
@@ -379,11 +344,10 @@
                         android:id="@+id/editTextSecurityAnswer"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/registration_security_answer_hint"
                         android:imeOptions="actionDone"
                         android:inputType="textCapWords"
-                        android:minHeight="56dp"
-                        android:paddingVertical="16dp" />
+                        android:minHeight="@dimen/button_height"
+                        android:textSize="@dimen/text_body" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
@@ -391,8 +355,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:textColor="#D14343"
-                    android:textSize="12sp"
+                    android:textColor="@color/notion_error"
+                    android:textSize="@dimen/text_error"
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -405,13 +369,13 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="28dp"
-                    android:minHeight="56dp"
+                    android:minHeight="@dimen/button_height"
                     android:text="@string/registration_submit"
                     android:textAllCaps="false"
-                    android:textSize="16sp"
+                    android:textSize="@dimen/text_body"
                     android:textStyle="bold"
-                    app:backgroundTint="@color/purple_500"
-                    app:cornerRadius="18dp"
+                    app:backgroundTint="@color/notion_primary_action"
+                    app:cornerRadius="@dimen/radius_input"
                     app:layout_constraintEnd_toStartOf="@id/buttonCancelRegistration"
                     app:layout_constraintHorizontal_chainStyle="spread"
                     app:layout_constraintStart_toStartOf="parent"
@@ -424,15 +388,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="28dp"
-                    android:minHeight="56dp"
+                    android:minHeight="@dimen/button_height"
                     android:text="@string/registration_cancel"
                     android:textAllCaps="false"
-                    android:textColor="@color/purple_500"
-                    app:cornerRadius="18dp"
+                    android:textColor="@color/notion_text_primary"
+                    app:cornerRadius="@dimen/radius_input"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/buttonSubmitRegistration"
                     app:layout_constraintTop_toBottomOf="@id/textSecurityAnswerError"
-                    app:strokeColor="@color/purple_500" />
+                    app:strokeColor="@color/notion_stroke" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>

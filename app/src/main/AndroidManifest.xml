@@ -25,6 +25,12 @@
             android:name=".ui.DashboardActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.MySyllabiActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.ClassDirectoryActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.RegistrationActivity"
             android:exported="false" />
         <activity

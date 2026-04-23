@@ -22,6 +22,9 @@ interface ExamEventDao {
     @Delete
     suspend fun delete(event: ExamEvent)
 
+    @Query("DELETE FROM exam_events WHERE event_id = :eventId")
+    suspend fun deleteById(eventId: String): Int
+
     @Query("SELECT * FROM exam_events ORDER BY event_date ASC")
     suspend fun getAllEvents(): List<ExamEvent>
 
@@ -91,8 +94,8 @@ interface ExamEventDao {
     @Query("DELETE FROM exam_events WHERE syllabus_id = :syllabusId AND status = :rawStatus")
     suspend fun deleteRawForSyllabus(syllabusId: String, rawStatus: EventStatus): Int
 
-    @Query("UPDATE exam_events SET synced = 1 WHERE event_id = :eventId")
-    suspend fun markSynced(eventId: String): Int
+    @Query("UPDATE exam_events SET synced = 1, google_event_id = :googleEventId WHERE event_id = :eventId")
+    suspend fun markSynced(eventId: String, googleEventId: String): Int
 
     @Query("DELETE FROM exam_events")
     suspend fun clearAll()

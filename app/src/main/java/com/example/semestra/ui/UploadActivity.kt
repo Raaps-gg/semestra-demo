@@ -14,9 +14,11 @@ import com.example.semestra.data.EventStatus
 import com.example.semestra.data.ExamEvent
 import com.example.semestra.data.SessionStore
 import com.example.semestra.data.Syllabus
-import com.example.semestra.logic.PdfTextExtractor
 import com.example.semestra.logic.PdfUploadValidator
+import com.example.semestra.logic.ActivityLogWriter
+import com.example.semestra.logic.SyllabusMetadataExtractor
 import com.example.semestra.logic.SyllabusParser
+import com.example.semestra.logic.SyllabusTextExtractor
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import kotlinx.coroutines.CoroutineScope
@@ -36,10 +38,18 @@ class UploadActivity : AppCompatActivity() {
     private lateinit var progressIndicator: CircularProgressIndicator
     private lateinit var uploadButton: MaterialButton
 
-    private val pickPdf = registerForActivityResult(
-        ActivityResultContracts.GetContent()
+    private val pickSyllabus = registerForActivityResult(
+        ActivityResultContracts.OpenDocument()
     ) { uri: Uri? ->
-        if (uri != null) processPdf(uri)
+        if (uri != null) {
+            runCatching {
+                contentResolver.takePersistableUriPermission(
+                    uri,
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION
+                )
+            }
+            processSyllabus(uri)
+        }
         else Toast.makeText(this, "No file selected", Toast.LENGTH_SHORT).show()
     }
 
@@ -53,11 +63,11 @@ class UploadActivity : AppCompatActivity() {
         uploadButton = findViewById(R.id.buttonPickPdf)
 
         uploadButton.setOnClickListener {
-            pickPdf.launch("application/pdf")
+            pickSyllabus.launch(arrayOf("application/pdf"))
         }
     }
 
-    private fun processPdf(uri: Uri) {
+    private fun processSyllabus(uri: Uri) {
         val userId = SessionStore.getUserId(this)
         if (userId.isNullOrBlank()) {
             Toast.makeText(this, R.string.session_required, Toast.LENGTH_LONG).show()
@@ -84,16 +94,23 @@ class UploadActivity : AppCompatActivity() {
                 runCatching {
                     val syllabusId = UUID.randomUUID().toString()
                     val db = AppDatabase.getInstance(applicationContext)
+                    val rawText = SyllabusTextExtractor.extractText(applicationContext, uri)
+                    val metadata = SyllabusMetadataExtractor.extract(rawText)
                     db.syllabusDao().insert(
                         Syllabus(
                             syllabusId = syllabusId,
                             userId = userId,
                             filePath = uri.toString(),
-                            uploadDate = System.currentTimeMillis()
+                            uploadDate = System.currentTimeMillis(),
+                            courseSection = metadata.courseSection,
+                            instructorName = metadata.instructorName,
+                            instructorEmail = metadata.instructorEmail,
+                            taName = metadata.taName,
+                            taEmail = metadata.taEmail,
+                            meetingInfo = metadata.meetingInfo,
+                            gradingSummary = metadata.gradingSummary
                         )
                     )
-
-                    val rawText = PdfTextExtractor.extractText(applicationContext, uri)
                     val parseResult = parser.parseText(rawText)
                     val events = parseResult.events.map { parsed ->
                         ExamEvent(
@@ -111,6 +128,12 @@ class UploadActivity : AppCompatActivity() {
                     if (events.isNotEmpty()) {
                         db.examEventDao().insertAll(events)
                     }
+                    ActivityLogWriter.write(
+                        applicationContext,
+                        userId,
+                        getString(R.string.activity_log_upload_title),
+                        getString(R.string.activity_log_upload_details, events.size)
+                    )
                     syllabusId to events.size
                 }
             }
@@ -119,8 +142,15 @@ class UploadActivity : AppCompatActivity() {
             result.fold(
                 onSuccess = { (syllabusId, _) ->
                     statusText.text = getString(R.string.upload_parse_complete)
+                    // #region agent log
+                    runCatching {
+                        java.io.File("/Users/vanthiang/Semestra/.cursor/debug-751471.log").appendText(
+                            """{"sessionId":"751471","runId":"pre-fix","hypothesisId":"H4","location":"UploadActivity.kt:onSuccess","message":"Opening event review","data":{"syllabusIdLength":${syllabusId.length}},"timestamp":${System.currentTimeMillis()}}""" + "\n"
+                        )
+                    }
+                    // #endregion
                     startActivity(
-                        Intent(this, EventReviewActivity::class.java).apply {
+                        Intent(this@UploadActivity, EventReviewActivity::class.java).apply {
                             putExtra(EventReviewActivity.EXTRA_SYLLABUS_ID, syllabusId)
                         }
                     )

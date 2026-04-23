@@ -1,29 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F6F7FB"
-    android:padding="24dp">
+    android:background="@color/notion_surface"
+    android:padding="@dimen/space_screen">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/dashboardCard"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@android:color/white"
-        app:cardCornerRadius="28dp"
+        app:cardBackgroundColor="@color/notion_bg"
+        app:cardCornerRadius="@dimen/radius_card"
         app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:strokeColor="#E4E8F0"
+        app:strokeColor="@color/notion_stroke"
         app:strokeWidth="1dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="24dp">
+            android:padding="@dimen/space_screen">
 
             <TextView
                 android:id="@+id/textDashboardWelcome"
@@ -31,9 +32,13 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/dashboard_welcome"
-                android:textColor="#111827"
-                android:textSize="28sp"
+                android:textColor="@color/notion_text_primary"
+                android:textSize="@dimen/text_title"
                 android:textStyle="bold"
+                android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="20sp"
+                android:autoSizeMaxTextSize="30sp"
+                android:autoSizeStepGranularity="1sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -42,63 +47,229 @@
                 android:id="@+id/textDashboardSubtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/space_small"
                 android:gravity="center"
                 android:text="@string/dashboard_subtitle"
-                android:textColor="#6B7280"
-                android:textSize="14sp"
+                android:textColor="@color/notion_text_secondary"
+                android:textSize="@dimen/text_caption"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textDashboardWelcome" />
+
+            <TextView
+                android:id="@+id/textTodayDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_content"
+                android:textColor="@color/notion_text_primary"
+                android:textSize="@dimen/text_body"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textDashboardSubtitle"
+                tools:text="Tuesday, Mar 5, 2026" />
+
+            <TextView
+                android:id="@+id/textTodaySummary"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_small"
+                android:textColor="@color/notion_text_secondary"
+                android:textSize="@dimen/text_caption"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textTodayDate"
+                tools:text="Today: Midterm review (NH 203, 3:30 PM). Notes: Assignment #3 due soon." />
+
+            <TextView
+                android:id="@+id/textActivityLogTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_content"
+                android:text="@string/activity_log_title"
+                android:textColor="@color/notion_text_primary"
+                android:textSize="@dimen/text_caption"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textTodaySummary" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroupActivityFilter"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_small"
+                app:chipSpacingHorizontal="@dimen/space_small"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textActivityLogTitle"
+                app:selectionRequired="true"
+                app:singleSelection="true">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipActivityToday"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/activity_filter_today"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/chip_bg_choice"
+                    app:chipStrokeColor="@color/notion_stroke"
+                    app:chipStrokeWidth="1dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipActivityWeek"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/activity_filter_week"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/chip_bg_choice"
+                    app:chipStrokeColor="@color/notion_stroke"
+                    app:chipStrokeWidth="1dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipActivityAll"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/activity_filter_all"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/chip_bg_choice"
+                    app:chipStrokeColor="@color/notion_stroke"
+                    app:chipStrokeWidth="1dp" />
+            </com.google.android.material.chip.ChipGroup>
+
+            <TextView
+                android:id="@+id/textActivityGestureHint"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/activity_log_gesture_hint"
+                android:textColor="@color/notion_text_secondary"
+                android:textSize="11sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/chipGroupActivityFilter" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerActivityLog"
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_marginTop="@dimen/space_small"
+                android:overScrollMode="never"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textActivityGestureHint" />
+
+            <TextView
+                android:id="@+id/textActivityLogEmpty"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/activity_log_empty"
+                android:textColor="@color/notion_text_secondary"
+                android:textSize="12sp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/recyclerActivityLog"
+                app:layout_constraintEnd_toEndOf="@id/recyclerActivityLog"
+                app:layout_constraintStart_toStartOf="@id/recyclerActivityLog"
+                app:layout_constraintTop_toTopOf="@id/recyclerActivityLog" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonUploadSyllabus"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
-                android:minHeight="56dp"
+                android:layout_marginTop="@dimen/space_screen"
+                android:minHeight="@dimen/button_height"
                 android:text="@string/dashboard_upload_syllabus"
                 android:textAllCaps="false"
-                android:textSize="16sp"
+                android:textSize="@dimen/text_body"
                 android:textStyle="bold"
-                app:backgroundTint="@color/purple_500"
-                app:cornerRadius="18dp"
+                app:backgroundTint="@color/notion_primary_action"
+                app:cornerRadius="@dimen/radius_input"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textDashboardSubtitle" />
+                app:layout_constraintTop_toBottomOf="@id/recyclerActivityLog" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonViewSchedule"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:minHeight="56dp"
+                android:layout_marginTop="@dimen/space_content"
+                android:minHeight="@dimen/button_height"
                 android:text="@string/dashboard_view_schedule"
                 android:textAllCaps="false"
-                android:textColor="@color/purple_500"
-                app:cornerRadius="18dp"
+                android:textColor="@color/notion_text_primary"
+                app:cornerRadius="@dimen/radius_input"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/buttonUploadSyllabus"
-                app:strokeColor="@color/purple_500" />
+                app:strokeColor="@color/notion_stroke" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonMySyllabi"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_content"
+                android:minHeight="@dimen/button_height"
+                android:text="@string/dashboard_my_syllabi"
+                android:textAllCaps="false"
+                android:textColor="@color/notion_text_primary"
+                app:cornerRadius="@dimen/radius_input"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/buttonViewSchedule"
+                app:strokeColor="@color/notion_stroke" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonClassDirectory"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_content"
+                android:minHeight="@dimen/button_height"
+                android:text="@string/dashboard_class_directory"
+                android:textAllCaps="false"
+                android:textColor="@color/notion_text_primary"
+                app:cornerRadius="@dimen/radius_input"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/buttonMySyllabi"
+                app:strokeColor="@color/notion_stroke" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonSyncGoogleCalendar"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:minHeight="56dp"
+                android:layout_marginTop="@dimen/space_content"
+                android:minHeight="@dimen/button_height"
                 android:text="@string/dashboard_sync_calendar"
                 android:textAllCaps="false"
-                android:textColor="@color/purple_500"
-                app:cornerRadius="18dp"
+                android:textColor="@color/notion_text_primary"
+                app:cornerRadius="@dimen/radius_input"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/buttonViewSchedule"
-                app:strokeColor="@color/purple_500" />
+                app:layout_constraintTop_toBottomOf="@id/buttonClassDirectory"
+                app:strokeColor="@color/notion_stroke" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonSimulateNotifications"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_small"
+                android:text="@string/dashboard_simulate_notifications"
+                android:textAllCaps="false"
+                android:textColor="@color/notion_text_secondary"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/buttonSyncGoogleCalendar" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

@@ -11,11 +11,17 @@ object DisplayGenerator {
 
     data class TimeWindow(val startInclusive: Long, val endExclusive: Long)
 
-    enum class RangeMode { WEEKLY, MONTHLY }
+    enum class RangeMode { DAILY, WEEKLY, MONTHLY }
 
     fun windowFor(mode: RangeMode, anchorUtcMillis: Long, zone: TimeZone = TimeZone.getDefault()): TimeWindow {
         val cal = Calendar.getInstance(zone).apply { timeInMillis = anchorUtcMillis }
         return when (mode) {
+            RangeMode.DAILY -> {
+                stripToDayStart(cal)
+                val start = cal.timeInMillis
+                cal.add(Calendar.DAY_OF_MONTH, 1)
+                TimeWindow(start, cal.timeInMillis)
+            }
             RangeMode.WEEKLY -> {
                 cal.set(Calendar.DAY_OF_WEEK, cal.firstDayOfWeek)
                 stripToDayStart(cal)

@@ -30,6 +30,8 @@ data class ExamEvent(
     val eventDate: Long,
     @ColumnInfo(name = "synced")
     val synced: Boolean = false,
+    @ColumnInfo(name = "google_event_id")
+    val googleEventId: String? = null,
     @ColumnInfo(name = "status")
     val status: EventStatus = EventStatus.SAVED,
     @ColumnInfo(name = "needs_review")

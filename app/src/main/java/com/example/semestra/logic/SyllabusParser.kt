@@ -18,6 +18,7 @@ class SyllabusParser {
     fun parseText(text: String): ParseResult {
         val events = mutableListOf<ParsedExamEvent>()
         val lines = text.lines()
+        val defaultCourse = extractDefaultCourse(lines)
 
         for ((index, line) in lines.withIndex()) {
             val examMatch = EXAM_LABEL_REGEX.find(line) ?: continue
@@ -28,7 +29,7 @@ class SyllabusParser {
 
             val epochMs = parseToEpoch(dateMatch.value.trim(), timeMatch?.value?.trim()) ?: continue
 
-            val className = extractClassName(line)
+            val className = extractClassName(line, defaultCourse)
             val title = examMatch.value.replaceFirstChar { it.uppercase() }.trim()
 
             val multipleDates = dateMatches.size > 1
@@ -40,6 +41,34 @@ class SyllabusParser {
                     className = className,
                     examTitle = title,
                     eventDate = epochMs,
+                    needsReview = needsReview
+                )
+            )
+        }
+
+        // Parse schedule-like rows (date + topic/assignment text), common in DOCX/PDF tables.
+        for ((index, rawLine) in lines.withIndex()) {
+            val line = rawLine.trim()
+            val prefix = ROW_DATE_PREFIX.find(line) ?: continue
+            val dateText = prefix.value.trim()
+            val eventDate = parseToEpoch(dateText, null) ?: continue
+
+            val tail = line.removePrefix(prefix.value).trim(' ', '-', ':', '|', '\t')
+            val contextTail = if (tail.isNotBlank()) tail else {
+                lines.drop(index + 1).firstOrNull { it.trim().isNotBlank() }?.trim().orEmpty()
+            }
+            if (!looksLikeScheduleRow(contextTail)) continue
+
+            val title = buildSessionTitle(contextTail)
+            val className = extractClassName(line, defaultCourse)
+            val unknownCourse = className == "Unknown Course"
+            val needsReview = unknownCourse
+
+            events.add(
+                ParsedExamEvent(
+                    className = className,
+                    examTitle = title,
+                    eventDate = eventDate,
                     needsReview = needsReview
                 )
             )
@@ -81,8 +110,51 @@ class SyllabusParser {
         return null
     }
 
-    private fun extractClassName(line: String): String {
-        return Regex("""[A-Z]{2,4}\s?\d{3,4}""").find(line)?.value ?: "Unknown Course"
+    private fun extractClassName(line: String, defaultCourse: String?): String {
+        return Regex("""[A-Z]{2,4}\s?\d{3,4}""").find(line)?.value
+            ?: defaultCourse
+            ?: "Unknown Course"
+    }
+
+    private fun extractDefaultCourse(lines: List<String>): String? {
+        return lines
+            .asSequence()
+            .map { it.trim() }
+            .firstOrNull { it.contains(Regex("""\b[A-Z]{2,4}\s?\d{3,4}\b""")) }
+            ?.let { Regex("""\b[A-Z]{2,4}\s?\d{3,4}\b""").find(it)?.value }
+    }
+
+    private fun looksLikeScheduleRow(content: String): Boolean {
+        if (content.isBlank()) return false
+        val lower = content.lowercase(Locale.US)
+        val blacklist = listOf(
+            "institutional information",
+            "additional information",
+            "drop policy",
+            "emergency",
+            "http://",
+            "https://",
+            "catalog",
+            "grade grievances"
+        )
+        if (blacklist.any { lower.contains(it) }) return false
+        val scheduleKeywords = listOf(
+            "topic", "chapter", "assignment", "project", "midterm", "final",
+            "quiz", "discussion", "training", "presentation", "class", "spring break",
+            "lab", "test", "review", "requirements", "design", "modeling"
+        )
+        return scheduleKeywords.any { lower.contains(it) } || content.length > 18
+    }
+
+    private fun buildSessionTitle(content: String): String {
+        val condensed = content.replace(Regex("""\s+"""), " ").trim()
+        if (condensed.isBlank()) return "Class session"
+        val clean = condensed.take(100)
+        return if (clean.contains("no class", ignoreCase = true)) {
+            clean.replaceFirstChar { it.uppercase() }
+        } else {
+            "Class: $clean"
+        }
     }
 
     companion object {
@@ -99,6 +171,10 @@ class SyllabusParser {
         )
         private val TIME_REGEX = Regex(
             """\b(\d{1,2}:\d{2}\s*(?:AM|PM)|(\d{1,2}(?:AM|PM))|\d{2}:\d{2})\b""",
+            RegexOption.IGNORE_CASE
+        )
+        private val ROW_DATE_PREFIX = Regex(
+            """^\s*(\d{1,2}/\d{1,2}/\d{2,4}|(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{1,2},?\s+\d{2,4})""",
             RegexOption.IGNORE_CASE
         )
         private val DATE_FORMATS = listOf(

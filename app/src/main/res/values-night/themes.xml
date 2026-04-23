@@ -1,16 +1,23 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Theme.Semestra" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/black</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_200</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+    <style name="Theme.Semestra" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/notion_primary_action</item>
+        <item name="colorPrimaryVariant">@color/notion_primary_action</item>
+        <item name="colorOnPrimary">@color/notion_on_primary_action</item>
+        <item name="colorSecondary">@color/notion_text_secondary</item>
+        <item name="colorSecondaryVariant">@color/notion_text_secondary</item>
+        <item name="colorOnSecondary">@color/notion_bg</item>
+        <item name="colorSurface">@color/notion_bg</item>
+        <item name="android:colorBackground">@color/notion_surface</item>
+        <item name="android:textColorPrimary">@color/notion_text_primary</item>
+        <item name="android:textColorSecondary">@color/notion_text_secondary</item>
+        <item name="android:statusBarColor">@color/notion_bg</item>
+        <item name="android:navigationBarColor">@color/notion_bg</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="fontFamily">sans-serif</item>
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.Semestra.Small</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.Semestra.Medium</item>
+        <item name="materialButtonStyle">@style/Widget.Semestra.Button</item>
+        <item name="chipStyle">@style/Widget.Semestra.Chip.Choice</item>
+        <item name="textInputStyle">@style/Widget.Semestra.TextInputLayout.OutlinedBox</item>
     </style>
 </resources>

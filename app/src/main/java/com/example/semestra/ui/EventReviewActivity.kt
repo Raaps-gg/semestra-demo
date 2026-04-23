@@ -158,7 +158,14 @@ class EventReviewActivity : AppCompatActivity() {
             }
             reviewFinishedConfirmed = true
             backCallback.isEnabled = false
-            startActivity(Intent(this, ScheduleActivity::class.java))
+            // #region agent log
+            runCatching {
+                java.io.File("/Users/vanthiang/Semestra/.cursor/debug-751471.log").appendText(
+                    """{"sessionId":"751471","runId":"pre-fix","hypothesisId":"H3","location":"EventReviewActivity.kt:confirmAll","message":"Navigating to schedule","data":{"syllabusIdBlank":${syllabusId.isBlank()}},"timestamp":${System.currentTimeMillis()}}""" + "\n"
+                )
+            }
+            // #endregion
+            startActivity(Intent(this@EventReviewActivity, ScheduleActivity::class.java))
             finish()
         }
     }

@@ -13,9 +13,14 @@ import com.example.semestra.R
 import com.example.semestra.data.AppDatabase
 import com.example.semestra.data.ExamEvent
 import com.example.semestra.data.SessionStore
+import com.example.semestra.logic.ActivityLogWriter
+import com.example.semestra.logic.CalendarServices
+import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.Dispatchers
 import java.text.DateFormat
 import java.util.Date
 
@@ -25,6 +30,7 @@ class ScheduleActivity : AppCompatActivity() {
     private lateinit var emptyView: View
     private lateinit var chipGroup: ChipGroup
     private lateinit var adapter: ScheduleEventAdapter
+    private lateinit var calendarServices: CalendarServices
 
     private var mode: DisplayGenerator.RangeMode = DisplayGenerator.RangeMode.WEEKLY
     private var lastSaved: List<ExamEvent> = emptyList()
@@ -44,16 +50,17 @@ class ScheduleActivity : AppCompatActivity() {
         recycler = findViewById(R.id.recyclerSchedule)
         emptyView = findViewById(R.id.textScheduleEmpty)
         chipGroup = findViewById(R.id.chipGroupRange)
+        calendarServices = CalendarServices(applicationContext)
         recycler.layoutManager = LinearLayoutManager(this)
         adapter = ScheduleEventAdapter { showDetail(it) }
         recycler.adapter = adapter
 
         chipGroup.setOnCheckedChangeListener { _, checkedId ->
             if (checkedId == View.NO_ID) return@setOnCheckedChangeListener
-            mode = if (checkedId == R.id.chipMonthly) {
-                DisplayGenerator.RangeMode.MONTHLY
-            } else {
-                DisplayGenerator.RangeMode.WEEKLY
+            mode = when (checkedId) {
+                R.id.chipDaily -> DisplayGenerator.RangeMode.DAILY
+                R.id.chipMonthly -> DisplayGenerator.RangeMode.MONTHLY
+                else -> DisplayGenerator.RangeMode.WEEKLY
             }
             applyFilter()
         }
@@ -92,7 +99,91 @@ class ScheduleActivity : AppCompatActivity() {
                     syncStr
                 )
             )
+            .setNeutralButton(R.string.event_delete) { _, _ -> showDeleteDialog(event) }
             .setPositiveButton(R.string.ok) { d, _ -> d.dismiss() }
             .show()
+    }
+
+    private fun showDeleteDialog(event: ExamEvent) {
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.event_delete_confirm_title)
+            .setMessage(R.string.event_delete_confirm_message)
+            .setNegativeButton(R.string.registration_cancel, null)
+            .setPositiveButton(R.string.event_delete) { _, _ ->
+                deleteEventFromSchedule(event)
+            }
+            .show()
+    }
+
+    private fun deleteEventFromSchedule(event: ExamEvent) {
+        lifecycleScope.launch {
+            val db = AppDatabase.getInstance(applicationContext)
+            if (event.synced && !event.googleEventId.isNullOrBlank()) {
+                val account = GoogleSignIn.getLastSignedInAccount(this@ScheduleActivity)
+                if (account != null) {
+                    when (
+                        val result = calendarServices.deleteFromCalendarIfSynced(
+                            account = account,
+                            database = db,
+                            eventId = event.eventId,
+                            googleEventId = event.googleEventId
+                        )
+                    ) {
+                        is CalendarServices.SyncResult.Success -> {
+                            withContext(Dispatchers.IO) {
+                                val userId = SessionStore.getUserId(this@ScheduleActivity)
+                                if (!userId.isNullOrBlank()) {
+                                    ActivityLogWriter.write(
+                                        applicationContext,
+                                        userId,
+                                        getString(R.string.activity_log_delete_title),
+                                        getString(R.string.activity_log_delete_details, event.examTitle)
+                                    )
+                                }
+                            }
+                            Toast.makeText(
+                                this@ScheduleActivity,
+                                R.string.event_delete_success,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        is CalendarServices.SyncResult.Failure -> {
+                            Toast.makeText(
+                                this@ScheduleActivity,
+                                result.message,
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    }
+                    return@launch
+                }
+                withContext(Dispatchers.IO) {
+                    db.examEventDao().delete(event)
+                    ActivityLogWriter.write(
+                        applicationContext,
+                        event.userId,
+                        getString(R.string.activity_log_delete_title),
+                        getString(R.string.activity_log_delete_details, event.examTitle)
+                    )
+                }
+                Toast.makeText(
+                    this@ScheduleActivity,
+                    R.string.event_delete_local_only,
+                    Toast.LENGTH_LONG
+                ).show()
+                return@launch
+            }
+            withContext(Dispatchers.IO) {
+                db.examEventDao().delete(event)
+                ActivityLogWriter.write(
+                    applicationContext,
+                    event.userId,
+                    getString(R.string.activity_log_delete_title),
+                    getString(R.string.activity_log_delete_details, event.examTitle)
+                )
+            }
+            Toast.makeText(this@ScheduleActivity, R.string.event_delete_success, Toast.LENGTH_SHORT)
+                .show()
+        }
     }
 }

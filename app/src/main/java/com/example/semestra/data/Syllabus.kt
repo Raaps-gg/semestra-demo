@@ -27,5 +27,19 @@ data class Syllabus(
     @ColumnInfo(name = "file_path")
     val filePath: String,
     @ColumnInfo(name = "upload_date")
-    val uploadDate: Long
+    val uploadDate: Long,
+    @ColumnInfo(name = "course_section")
+    val courseSection: String? = null,
+    @ColumnInfo(name = "instructor_name")
+    val instructorName: String? = null,
+    @ColumnInfo(name = "instructor_email")
+    val instructorEmail: String? = null,
+    @ColumnInfo(name = "ta_name")
+    val taName: String? = null,
+    @ColumnInfo(name = "ta_email")
+    val taEmail: String? = null,
+    @ColumnInfo(name = "meeting_info")
+    val meetingInfo: String? = null,
+    @ColumnInfo(name = "grading_summary")
+    val gradingSummary: String? = null
 )
