@@ -156,18 +156,62 @@ class UploadFragment : Fragment(R.layout.fragment_upload) {
 
     private fun demoSeedEvents(userId: String): List<ExamEvent> {
         val dateFormat = SimpleDateFormat("MMM d, yyyy", Locale.US)
+        data class SeedRow(val className: String, val date: String, val type: String, val topic: String)
         val rows = listOf(
-            Triple("CSE 3302", "Mar 3, 2026", "Midterm Exam"),
-            Triple("CSE 3302", "May 5, 2026", "Final Exam"),
-            Triple("CSE 3314", "Feb 3, 2026", "Quiz 1"),
-            Triple("CSE 3314", "Mar 5, 2026", "Exam #1 (Assignment 3 Due)"),
-            Triple("CSE 3310", "Feb 19, 2026", "Increment I Delivery Due (UML Document)"),
-            Triple("CSE 3310", "May 5, 2026", "Final Exam"),
-            Triple("CSE 3315", "Mar 4, 2026", "Midterm Assessment"),
-            Triple("CSE 3315", "May 6, 2026", "Final Exam")
+            // CSE 3314 (NH 203)
+            SeedRow("CSE 3314", "Jan 22, 2026", "Lecture", "Chapter 1 (Assignment 1 Due)"),
+            SeedRow("CSE 3314", "Jan 29, 2026", "Lecture", "Chapter 2"),
+            SeedRow("CSE 3314", "Feb 3, 2026", "Quiz", "Quiz 1"),
+            SeedRow("CSE 3314", "Feb 10, 2026", "Lecture", "Guest Speaker #1 (Assignment 2 Due)"),
+            SeedRow("CSE 3314", "Feb 19, 2026", "Lecture", "Chapter 4"),
+            SeedRow("CSE 3314", "Mar 3, 2026", "Quiz", "Quiz 2"),
+            SeedRow("CSE 3314", "Mar 5, 2026", "Exam", "Exam #1 (Assignment 3 Due)"),
+            SeedRow("CSE 3314", "Mar 17, 2026", "Lecture", "Chapter 5"),
+            SeedRow("CSE 3314", "Mar 24, 2026", "Lecture", "Chapter 6 (Assignment 4 Due)"),
+            SeedRow("CSE 3314", "Mar 31, 2026", "Quiz", "Quiz 3"),
+            SeedRow("CSE 3314", "Apr 9, 2026", "Lecture", "Chapter 8 (Assignment 5 Due)"),
+            SeedRow("CSE 3314", "Apr 16, 2026", "Lecture", "Communicating in a Teamworking Environment"),
+            SeedRow("CSE 3314", "Apr 28, 2026", "Quiz", "Quiz 4"),
+            SeedRow("CSE 3314", "Apr 30, 2026", "Exam", "Final Exam"),
+            // CSE 3310 (SWSH 221)
+            SeedRow("CSE 3310", "Jan 20, 2026", "Lecture", "Software Processes & Project Management"),
+            SeedRow("CSE 3310", "Feb 3, 2026", "Lecture", "Intro to UML"),
+            SeedRow("CSE 3310", "Feb 10, 2026", "Lecture", "Requirements Engineering"),
+            SeedRow("CSE 3310", "Feb 19, 2026", "Assignment", "Increment I Delivery Due (UML Document)"),
+            SeedRow("CSE 3310", "Feb 24, 2026", "Lecture", "Software Testing"),
+            SeedRow("CSE 3310", "Mar 3, 2026", "Exam", "Midterm Exam"),
+            SeedRow("CSE 3310", "Mar 17, 2026", "Lecture", "Software Evolution"),
+            SeedRow("CSE 3310", "Mar 26, 2026", "Assignment", "Increment 2 Delivery Due (SRA Document)"),
+            SeedRow("CSE 3310", "Mar 31, 2026", "Lecture", "Distributed SE & Cloud Computing"),
+            SeedRow("CSE 3310", "Apr 7, 2026", "Lecture", "Agile Software Dev & Managing People"),
+            SeedRow("CSE 3310", "Apr 16, 2026", "Assignment", "Increment 3 Delivery Due (Test Plan & Peer Reviews)"),
+            SeedRow("CSE 3310", "Apr 28, 2026", "Assignment", "Increment 4 Delivery Due (Final Project Binder)"),
+            SeedRow("CSE 3310", "May 5, 2026", "Exam", "Final Exam"),
+            // CSE 3302 (NH 109)
+            SeedRow("CSE 3302", "Jan 13, 2026", "Lecture", "Course Overview & Intro to Programming Languages"),
+            SeedRow("CSE 3302", "Jan 20, 2026", "Lecture", "Language Design Criteria"),
+            SeedRow("CSE 3302", "Jan 27, 2026", "Lecture", "Functional Programming"),
+            SeedRow("CSE 3302", "Feb 10, 2026", "Lecture", "Object-Oriented Programming"),
+            SeedRow("CSE 3302", "Feb 24, 2026", "Lecture", "Basic Semantics"),
+            SeedRow("CSE 3302", "Mar 3, 2026", "Exam", "Midterm Exam"),
+            SeedRow("CSE 3302", "Mar 24, 2026", "Lecture", "Control Structures I"),
+            SeedRow("CSE 3302", "Apr 7, 2026", "Lecture", "Abstract Data Types and Modules"),
+            SeedRow("CSE 3302", "May 5, 2026", "Exam", "Final Exam"),
+            // CSE 3315 (NH 202)
+            SeedRow("CSE 3315", "Jan 13, 2026", "Lecture", "Introduction and Finite Automata"),
+            SeedRow("CSE 3315", "Jan 22, 2026", "Lecture", "Nondeterminism"),
+            SeedRow("CSE 3315", "Feb 3, 2026", "Lecture", "Pumping Lemma (Regular Languages)"),
+            SeedRow("CSE 3315", "Feb 17, 2026", "Exam", "Exam 1"),
+            SeedRow("CSE 3315", "Feb 19, 2026", "Lecture", "Context-free Grammars"),
+            SeedRow("CSE 3315", "Mar 19, 2026", "Lecture", "Turing Machines"),
+            SeedRow("CSE 3315", "Mar 31, 2026", "Exam", "Exam 2"),
+            SeedRow("CSE 3315", "Apr 14, 2026", "Lecture", "Class Ptime and Class P closure"),
+            SeedRow("CSE 3315", "May 5, 2026", "Exam", "Final Exam")
         )
-        return rows.map { (className, date, title) ->
-            val millis = dateFormat.parse(date)?.time ?: System.currentTimeMillis()
+        return rows.map { row ->
+            val className = row.className
+            val title = row.topic
+            val millis = dateFormat.parse(row.date)?.time ?: System.currentTimeMillis()
             ExamEvent(
                 eventId = UUID.randomUUID().toString(),
                 userId = userId,
@@ -178,7 +222,7 @@ class UploadFragment : Fragment(R.layout.fragment_upload) {
                 location = defaultLocationFor(className),
                 startTime = defaultStartFor(className),
                 endTime = defaultEndFor(className),
-                eventType = eventTypeFromTitle(title),
+                eventType = row.type,
                 synced = false,
                 status = EventStatus.SAVED,
                 needsReview = false

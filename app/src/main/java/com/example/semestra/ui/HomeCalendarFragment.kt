@@ -84,7 +84,9 @@ class HomeCalendarFragment : Fragment() {
         val sheet = view.findViewById<View>(R.id.layoutHomeBody)
         BottomSheetBehavior.from(sheet).apply {
             isHideable = false
+            isFitToContents = false
             skipCollapsed = false
+            expandedOffset = resources.displayMetrics.heightPixels / 2
             state = BottomSheetBehavior.STATE_COLLAPSED
         }
 

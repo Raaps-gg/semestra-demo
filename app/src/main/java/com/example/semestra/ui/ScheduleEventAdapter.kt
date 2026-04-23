@@ -44,7 +44,7 @@ class ScheduleEventAdapter(
 
         fun bind(event: ExamEvent) {
             classTag.text = event.className
-            title.text = event.examTitle
+            title.text = "${event.className} • ${event.startTime} - ${event.endTime}"
             val dateStr = DateFormat.getDateInstance(DateFormat.MEDIUM).format(Date(event.eventDate))
             val syncStr = itemView.context.getString(
                 if (event.synced) R.string.synced_label else R.string.not_synced_label
