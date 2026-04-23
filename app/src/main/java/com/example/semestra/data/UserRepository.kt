@@ -14,4 +14,8 @@ class UserRepository(
     suspend fun deleteUser(user: User) {
         userDao.deleteUser(user)
     }
+
+    suspend fun updatePasswordHash(userId: String, passwordHash: String) {
+        userDao.updatePasswordHash(userId, passwordHash)
+    }
 }

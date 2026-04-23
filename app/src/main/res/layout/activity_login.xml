@@ -155,17 +155,33 @@
                 app:layout_constraintTop_toBottomOf="@id/textPasswordError" />
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonRegister"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:minHeight="52dp"
+                android:text="@string/login_register"
+                android:textAllCaps="false"
+                android:textColor="@color/purple_500"
+                app:cornerRadius="18dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/buttonLogin"
+                app:strokeColor="@color/purple_500" />
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonForgotPassword"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/forgot_password_button"
                 android:textAllCaps="false"
                 android:textColor="@color/purple_500"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/buttonLogin" />
+                app:layout_constraintTop_toBottomOf="@id/buttonRegister" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

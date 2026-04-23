@@ -102,6 +102,7 @@ class UserRegistrationService(
             password = when {
                 input.password.isBlank() -> "Password is required."
                 input.password.length < 8 -> "Password must be at least 8 characters."
+                !input.password.contains(Regex("[A-Za-z]")) -> "Password must include letters."
                 !input.password.contains(Regex("[A-Z]")) -> "Password must include a capital letter."
                 !input.password.contains(Regex("[0-9]")) -> "Password must include a number."
                 else -> null

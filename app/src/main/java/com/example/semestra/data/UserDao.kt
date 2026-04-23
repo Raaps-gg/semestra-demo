@@ -5,7 +5,6 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-
 @Dao
 interface UserDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -19,4 +18,7 @@ interface UserDao {
 
     @Delete
     suspend fun deleteUser(user: User)
+
+    @Query("UPDATE users SET password_hash = :passwordHash WHERE user_id = :userId")
+    suspend fun updatePasswordHash(userId: String, passwordHash: String): Int
 }
