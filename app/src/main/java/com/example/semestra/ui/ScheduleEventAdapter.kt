@@ -40,6 +40,7 @@ class ScheduleEventAdapter(
         private val classTag = view.findViewById<TextView>(R.id.textScheduleClassTag)
         private val title = view.findViewById<TextView>(R.id.textScheduleTitle)
         private val subtitle = view.findViewById<TextView>(R.id.textScheduleSubtitle)
+        private val topic = view.findViewById<TextView>(R.id.textScheduleTopic)
 
         fun bind(event: ExamEvent) {
             classTag.text = event.className
@@ -53,6 +54,10 @@ class ScheduleEventAdapter(
                 event.eventType,
                 dateStr,
                 event.location.ifBlank { syncStr }
+            )
+            topic.text = itemView.context.getString(
+                R.string.schedule_event_topic,
+                event.examTitle
             )
             val bg = GradientDrawable().apply {
                 shape = GradientDrawable.RECTANGLE

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,11 +12,8 @@
         android:orientation="vertical"
         android:paddingHorizontal="16dp"
         android:paddingTop="14dp"
-        app:layout_constraintBottom_toTopOf="@id/layoutHomeBody"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.40"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_gravity="top"
+        android:layout_marginTop="12dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -26,22 +23,19 @@
             android:textSize="22sp"
             android:textStyle="bold" />
 
-        <com.google.android.material.card.MaterialCardView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_gravity="center_horizontal"
-            app:cardBackgroundColor="@color/two_tone_dark_alt"
-            app:cardCornerRadius="@dimen/radius_card"
-            app:cardElevation="0dp"
-            app:strokeColor="@color/two_tone_dark_alt"
-            app:strokeWidth="1dp">
+            android:orientation="vertical"
+            android:padding="4dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="10dp">
+                android:padding="6dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -86,26 +80,24 @@
                     android:id="@+id/monthCalendarView"
                     android:layout_width="match_parent"
                     android:layout_height="280dp"
+                    android:background="@android:color/transparent"
                     app:cv_dayViewResource="@layout/item_calendar_day" />
             </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/layoutHomeBody"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="-10dp"
+        android:layout_height="match_parent"
         android:background="@drawable/bg_bottom_sheet_surface"
         android:orientation="vertical"
         android:paddingHorizontal="14dp"
         android:paddingTop="14dp"
         android:paddingBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.66"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layoutHomeHeader">
+        app:behavior_hideable="true"
+        app:behavior_peekHeight="220dp"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
         <TextView
             android:layout_width="match_parent"
@@ -148,4 +140,4 @@
             android:visibility="gone" />
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

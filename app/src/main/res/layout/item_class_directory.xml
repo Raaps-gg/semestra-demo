@@ -31,12 +31,23 @@
 
             <TextView
                 android:id="@+id/textDirectoryCourse"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:layout_marginStart="8dp"
                 android:textColor="@color/notion_text_primary"
                 android:textSize="@dimen/text_body"
                 android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/buttonDeleteClass"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/class_delete_mock"
+                android:padding="4dp"
+                android:src="@android:drawable/ic_menu_delete"
+                app:tint="@color/notion_text_secondary" />
         </LinearLayout>
 
         <TextView

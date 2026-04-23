@@ -5,8 +5,10 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import androidx.recyclerview.widget.RecyclerView
@@ -47,6 +49,7 @@ class ClassDirectoryAdapter(
 
     inner class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val course = itemView.findViewById<TextView>(R.id.textDirectoryCourse)
+        private val delete = itemView.findViewById<ImageButton>(R.id.buttonDeleteClass)
         private val section = itemView.findViewById<TextView>(R.id.textDirectorySection)
         private val meeting = itemView.findViewById<TextView>(R.id.textDirectoryMeeting)
         private val location = itemView.findViewById<TextView>(R.id.textDirectoryLocation)
@@ -124,6 +127,13 @@ class ClassDirectoryAdapter(
             itemView.setOnClickListener {
                 if (expanded) expandedProfileIds.remove(item.profileId) else expandedProfileIds.add(item.profileId)
                 notifyItemChanged(bindingAdapterPosition)
+            }
+            delete.setOnClickListener {
+                AlertDialog.Builder(itemView.context)
+                    .setMessage(R.string.class_delete_confirm)
+                    .setNegativeButton(R.string.registration_cancel, null)
+                    .setPositiveButton(R.string.delete) { d, _ -> d.dismiss() }
+                    .show()
             }
         }
     }

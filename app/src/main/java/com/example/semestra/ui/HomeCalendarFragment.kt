@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
@@ -80,6 +81,12 @@ class HomeCalendarFragment : Fragment() {
         upcomingRecycler.adapter = upcomingAdapter
         eventsRecycler.layoutManager = LinearLayoutManager(requireContext())
         eventsRecycler.adapter = adapter
+        val sheet = view.findViewById<View>(R.id.layoutHomeBody)
+        BottomSheetBehavior.from(sheet).apply {
+            isHideable = true
+            skipCollapsed = false
+            state = BottomSheetBehavior.STATE_COLLAPSED
+        }
 
         setupCalendar()
         observeFilter()
@@ -213,6 +220,7 @@ class HomeCalendarFragment : Fragment() {
             "exam" in title || "midterm" in title || "final" in title || type == "exam" -> R.color.event_exam_stripe
             "quiz" in title || type == "quiz" -> R.color.event_quiz_stripe
             "assignment" in title || "delivery" in title || "due" in title || type == "assignment" -> R.color.event_assignment_stripe
+            "lecture" in title || type == "lecture" -> R.color.event_lecture_stripe
             else -> null
         }
     }

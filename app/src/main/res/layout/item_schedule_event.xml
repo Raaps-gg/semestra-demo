@@ -47,5 +47,14 @@
             android:textColor="@color/notion_text_secondary"
             android:textSize="@dimen/text_caption"
             tools:text="CS 101 · Apr 22, 2026 · Synced" />
+
+        <TextView
+            android:id="@+id/textScheduleTopic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/notion_text_secondary"
+            android:textSize="12sp"
+            tools:text="Lecture topic: Requirements elicitation workshop" />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
